@@ -30,7 +30,7 @@ public class LightBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        LightTimings();
+        //LightTimings();
     }
 
     private void LightTimings()
