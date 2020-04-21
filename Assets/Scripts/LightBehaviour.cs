@@ -25,74 +25,60 @@ public class LightBehaviour : MonoBehaviour
             lights[i].GetComponent<Renderer>().material.color = colours[Random.Range(0,3)];
         }
 
-        StartCoroutine(LightTimings());
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        //LightTimings();
     }
 
-    private IEnumerator LightTimings()
+    private void LightTimings()
     {
-        while (true)
+
+        for (int i = 0; i < lights.Length; i++)
         {
-            for (int i = 0; i < lights.Length; i++)
+            Renderer r = lights[i].GetComponent<Renderer>();
+
+            if (r.material.color == Color.yellow)
             {
-                Renderer r = lights[i].GetComponent<Renderer>();
-
-                if (r.material.color == Color.yellow)
-                {
-                    StartCoroutine(YellowTime(lights[i]));
-                }
-                else if (r.material.color == Color.red)
-                {
-                    StartCoroutine(RedTime(lights[i]));
-                }
-                else if (r.material.color == Color.green)
-                {
-                    StartCoroutine(GreenTime(lights[i]));
-                }
+                StartCoroutine(YellowTime(lights[i]));
             }
-
-            yield return new WaitForSeconds(0);
+            else if (r.material.color == Color.red)
+            {
+                StartCoroutine(RedTime(lights[i]));
+            }
+            else if (r.material.color == Color.green)
+            {
+                StartCoroutine(GreenTime(lights[i]));
+            }
         }
     }
 
     IEnumerator YellowTime(GameObject light)
     {
-        Renderer r = light.GetComponent<Renderer>();
-
         yield return new WaitForSeconds(4);
-
+        Renderer r = light.GetComponent<Renderer>();
         r.material.color = Color.red;
-        
+        Debug.Log("yellow changed");
     }
 
     IEnumerator RedTime(GameObject light)
     {
+        int time = Random.Range(5, 11);
+        yield return new WaitForSeconds(time);
         Renderer r = light.GetComponent<Renderer>();
         //Red lights stay red for a random time between 5 and 10
-        int time = Random.Range(5, 11);
-
-        yield return new WaitForSeconds(time);
-
         r.material.color = Color.green;
         Debug.Log("Red light changed after: " + (time) + "seconds");
     }
 
     IEnumerator GreenTime(GameObject light)
     {
-        Renderer r = light.GetComponent<Renderer>();
-
         int time = Random.Range(5, 11);
-
         yield return new WaitForSeconds(time);
-
+        Renderer r = light.GetComponent<Renderer>();
         r.material.color = Color.yellow;
-        Debug.Log("green light changed after: " + time + "seconds");
-        
-        
+        Debug.Log("green light changed after: " + time + "seconds"); 
     }
 }
